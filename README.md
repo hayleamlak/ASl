@@ -10,6 +10,7 @@ It includes:
 
 ## 1) Setup
 
+
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
