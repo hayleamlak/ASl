@@ -3,6 +3,7 @@ from pathlib import Path
 
 import joblib
 import numpy as np
+import pandas as pd
 
 
 def load_labels(labels_path: str) -> list[str]:
@@ -34,6 +35,14 @@ def load_model(model_path: str):
 
 def predict_label(model, features: np.ndarray) -> tuple[str, float]:
     sample = features.reshape(1, -1)
+
+    feature_names = getattr(model, "feature_names_in_", None)
+    if feature_names is None and hasattr(model, "named_steps"):
+        scaler = model.named_steps.get("scaler")
+        feature_names = getattr(scaler, "feature_names_in_", None)
+
+    if feature_names is not None:
+        sample = pd.DataFrame(sample, columns=list(feature_names))
 
     if hasattr(model, "predict_proba"):
         proba = model.predict_proba(sample)[0]

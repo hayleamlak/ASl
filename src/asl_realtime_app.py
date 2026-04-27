@@ -177,6 +177,8 @@ def main() -> None:
                 ts = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
                 with open(args.save_path, "a", encoding="utf-8") as f:
                     f.write(f"[{ts}] {final_text}\n")
+    except KeyboardInterrupt:
+        pass
 
     finally:
         cap.release()
